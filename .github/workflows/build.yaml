@@ -1,0 +1,51 @@
+name: Build all user keymaps
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: qmk_userspace
+
+    - name: Set default environment variables
+      uses: allenevans/set-env@v2.0.0
+      with:
+        QMK_USER: ${{github.repository_owner}}
+        QMK_REPO: Curry/qmk_firmware
+        QMK_REF: userspace_keymaps
+
+    - name: Override environment with user values
+      uses: c-py/action-dotenv-to-setenv@v2
+      with:
+        env-file: qmk_userspace/.env
+
+    - name: Checkout qmk_firmware
+      uses: actions/checkout@v2
+      with:
+        repository: ${{env.QMK_REPO}}
+        ref:  ${{env.QMK_REF}}
+        path: qmk_firmware
+        submodules: recursive
+
+    - name: Build
+      env:
+        MAKEFLAGS: '-j3 --output-sync'
+      run: |
+        docker run --rm \
+          -w /qmk_firmware/ \
+          -v $PWD/qmk_firmware:/qmk_firmware \
+          -v $PWD/qmk_userspace:/qmk_firmware/users/${QMK_USER} \
+          qmkfm/base_container:latest \
+            make all:${QMK_USER}
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: firmware
+        path: |
+          qmk_firmware/*.hex
+          qmk_firmware/*.bin
