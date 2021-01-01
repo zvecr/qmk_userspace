@@ -2,11 +2,7 @@
 
 > Cloud build your QMK keymaps
 
-TODO:
-
-- [ ] automatically use qmk_firmware fork if it exists
-- [ ] refactor github actions to script
-- [ ] add build filter for community layouts
+Easily keep all your keymaps in one place, no git rebase/merge hell, no need to upstream your keymaps, and automatic builds of everything you care about.
 
 ## Getting Started
 
@@ -16,7 +12,46 @@ TODO:
 
 ## Adding Keymaps
 
-TODO: add structure example
+Summary of the expected structure:
+```
+├── keymaps
+│   ├── clueboard_california_keymap.json
+│   ├── dz60
+│   │   └── keymap.c
+│   └── jj50_keymap.c
+├── layouts
+│   └── ortho_4x12
+│       └── keymap.c
+├── rules.mk
+├── config.h
+├── <user>.c
+└── <user>.h
+```
+
+#### Supports:
+
+* Regular keymaps
+* Configurator exports
+* Community layouts
+
+#### Usual userspace items:
+
+* `<user>.h`
+* `<user>.c`
+* `config.h`
+* `rules.mk`
+
+Apply to all keyboards, see <https://docs.qmk.fm/#/feature_userspace> for more info.
+
+#### Conversion table:
+
+| Type | qmk_firmware | qmk_userspace |
+|---|---|---|
+| Simple flat  | `keyboards/<keyboard>/keymaps/<user>/keymap.c` | `keymaps/<keyboard>_keymap.c` |
+| Configurator export | `keyboards/<keyboard>/keymaps/<user>/keymap.json` | `keymaps/<keyboard>_keymap.json` |
+| Regular old keymap | `keyboards/<keyboard>/keymaps/<user>/keymap.c`<br>`keyboards/<keyboard>/keymaps/<user>/config.h` | `keymaps/<keyboard>/keymap.c`<br>`keymaps/<keyboard>/config.h` |
+| Keymap within revision | `keyboards/<keyboard>/<revision>/keymaps/<user>/keymap.c` | `keymaps/<keyboard>/<revision>/keymap.c` |
+| Community layout | `layouts/community/<layout>/<user>/keymap.c` | `layouts/<layout>/keymap.c` |
 
 ## Configuration
 
