@@ -36,6 +36,8 @@ Summary of the expected structure:
 
 #### Usual userspace items:
 
+The following should exist at the top level of the repo:
+
 * `<user>.h`
 * `<user>.c`
 * `config.h`
@@ -47,7 +49,7 @@ Apply to all keyboards, see <https://docs.qmk.fm/#/feature_userspace> for more i
 
 | Type | qmk_firmware | qmk_userspace |
 |---|---|---|
-| Simple flat  | `keyboards/<keyboard>/keymaps/<user>/keymap.c` | `keymaps/<keyboard>_keymap.c` |
+| Simple flat | `keyboards/<keyboard>/keymaps/<user>/keymap.c` | `keymaps/<keyboard>_keymap.c` |
 | Configurator export | `keyboards/<keyboard>/keymaps/<user>/keymap.json` | `keymaps/<keyboard>_keymap.json` |
 | Regular old keymap | `keyboards/<keyboard>/keymaps/<user>/keymap.c`<br>`keyboards/<keyboard>/keymaps/<user>/config.h` | `keymaps/<keyboard>/keymap.c`<br>`keymaps/<keyboard>/config.h` |
 | Keymap within revision | `keyboards/<keyboard>/<revision>/keymaps/<user>/keymap.c` | `keymaps/<keyboard>/<revision>/keymap.c` |
