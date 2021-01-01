@@ -42,10 +42,13 @@ jobs:
           qmkfm/base_container:latest \
             make all:${QMK_USER}
 
-    - uses: actions/upload-artifact@v2
+    - uses: marvinpinto/action-automatic-releases@latest
       if: always()
       with:
-        name: firmware
-        path: |
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Latest Firmware"
+        files: |
           qmk_firmware/*.hex
           qmk_firmware/*.bin
